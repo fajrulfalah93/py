@@ -62,25 +62,25 @@ mod = 2017
 recap = 'https://sirup.lkpp.go.id/sirup/datatablectr/datatableruprekapkldi?idKldi=D170&tahun=' + str(
     yearNow)
 getRecap = get_legacy_session().get(recap).json()
-with open("recap" + str(yearNow) + ".json", "w") as outfile:
+with open("D:/learn/pbj/data/recap" + str(yearNow) + ".json", "w") as outfile:
     json.dump(getRecap, outfile)
 
 provider = 'https://sirup.lkpp.go.id/sirup/datatablectr/dataruppenyediakldi?idKldi=D170&tahun=' + str(
     yearNow)
 getProv = get_legacy_session().get(provider).json()
-with open("provider" + str(yearNow) + ".json", "w") as outfile:
+with open("D:/learn/pbj/data/provider" + str(yearNow) + ".json", "w") as outfile:
     json.dump(getProv, outfile)
 
 selfMan = 'https://sirup.lkpp.go.id/sirup/datatablectr/datarupswakelolakldi?idKldi=D170&tahun=' + str(
     yearNow)
 getSelf = get_legacy_session().get(selfMan).json()
-with open("selfMan" + str(yearNow) + ".json", "w") as outfile:
+with open("D:/learn/pbj/data/selfMan" + str(yearNow) + ".json", "w") as outfile:
     json.dump(getSelf, outfile)
 
 provSelf = 'https://sirup.lkpp.go.id/sirup/datatablectr/dataruppenyediaswakelolaallrekapkldi?idKldi=D170&tahun=' + str(
     yearNow)
 getProvSelf = get_legacy_session().get(provSelf).json()
-with open("provSelf" + str(yearNow) + ".json", "w") as outfile:
+with open("D:/learn/pbj/data/provSelf" + str(yearNow) + ".json", "w") as outfile:
     json.dump(getProvSelf, outfile)
 
 print("--- %s detik ---" % (time.time() - start_time))
