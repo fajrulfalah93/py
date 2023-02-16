@@ -1,5 +1,5 @@
 ########################################################################################################################
-# Source code: Aplikasi Generator File Excel Recap untuk Data SIRUP di Kabupaten Mojokerto                             #
+# Source code: Aplikasi Python untuk Generator File Excel Recap Data SIRUP di Kabupaten Mojokerto                      #
 # ---------------------------------------------------------------------------------------------------------------------#
 # Aplikasi ini dibuat oleh:                                                                                            #
 # Nama          : Muhammad Fajrul Falah, S.ST., M.Tr.T., dkk.                                                          #
@@ -94,6 +94,7 @@ mapObj = {
 #     with open("provSelf" + str(x) + ".json", "w") as outfile:
 #         json.dump(getProvSelf, outfile)
 
+# Ambil Data Sirup (Data ini berasal dari API JSON yang ditarik dari Information Systems Branch (ISB) LKPP
 recap = 'https://sirup.lkpp.go.id/sirup/datatablectr/datatableruprekapkldi?idKldi=D170&tahun=' + str(
     yearNow)
 # getRecap = get_legacy_session().get(recap).json()
@@ -122,17 +123,11 @@ getProvSelf = rq.get(provSelf).json()
 # with open("D:/learn/pbj/data/provSelf" + str(yearNow) + ".json", "w") as outfile:
 #     json.dump(getProvSelf, outfile)
 
-# recap = 'https://sirup.lkpp.go.id/sirup/datatablectr/datatableruprekapkldi?idKldi=D170&tahun=' + str(yearNow)
-# provider = 'https://sirup.lkpp.go.id/sirup/datatablectr/dataruppenyediakldi?idKldi=D170&tahun=' + str(yearNow)
-# selfMan = 'https://sirup.lkpp.go.id/sirup/datatablectr/datarupswakelolakldi?idKldi=D170&tahun=' + str(yearNow)
-# provSelf = 'https://sirup.lkpp.go.id/sirup/datatablectr/dataruppenyediaswakelolaallrekapkldi?idKldi=D170&tahun=' + str(
-#     yearNow)
-
-# # recap = 'https://lpse.or.id/sirup/?mod=datatableruprekapkldi&idKldi=D170&tahun=' + str(yearNow)
-# # provider = 'https://lpse.or.id/sirup/?mod=dataruppenyediakldi&idKldi=D170&tahun=' + str(yearNow)
-# # selfMan = 'https://lpse.or.id/sirup/?mod=datarupswakelolakldi&idKldi=D170&tahun=' + str(yearNow)
-# # provSelf = 'https://lpse.or.id/sirup/?mod=dataruppenyediaswakelolaallrekapkldi&idKldi=D170&tahun=' + str(
-# #     yearNow)
+# Alternatif Source untuk Data SIRUP
+# recap = 'https://lpse.or.id/sirup/?mod=datatableruprekapkldi&idKldi=D170&tahun=' + str(yearNow)
+# provider = 'https://lpse.or.id/sirup/?mod=dataruppenyediakldi&idKldi=D170&tahun=' + str(yearNow)
+# selfMan = 'https://lpse.or.id/sirup/?mod=datarupswakelolakldi&idKldi=D170&tahun=' + str(yearNow)
+# provSelf = 'https://lpse.or.id/sirup/?mod=dataruppenyediaswakelolaallrekapkldi&idKldi=D170&tahun=' + str(yearNow)
 
 dtRecap = getRecap['aaData']
 dtProv = getProv['aaData']
