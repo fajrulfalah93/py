@@ -1,3 +1,22 @@
+########################################################################################################################
+# Source code: Aplikasi Generator File Excel Recap untuk Data SIRUP di Kabupaten Mojokerto                             #
+# ---------------------------------------------------------------------------------------------------------------------#
+# Aplikasi ini dibuat oleh:                                                                                            #
+# Nama          : Muhammad Fajrul Falah, S.ST., M.Tr.T., dkk.                                                          #
+# Jabatan       : Tenaga Operator Komputer                                                                             #
+# Instansi      : Biro Pengadaan Barang dan Jasa Setda Kab. Mojokerto                                                  #
+# Email         : sunrise.pacet@gmail.com                                                                              #
+# URL Web       : https://github.com/fajrulfalah93                                                                     #
+# ---------------------------------------------------------------------------------------------------------------------#
+# Hak cipta milik Allah SWT, source code ini silahkan dicopy, di download atau di distribusikan ke siapa saja untuk    #
+# bahan belajar, atau untuk dikembangkan lagi lebih lanjut, btw tidak untuk dijual ya.                                 #
+#                                                                                                                      #
+# Jika teman-teman mengembangkan lebih lanjut source code ini, agar berkenan untuk men-share code yang teman-teman     #
+# kembangkan lebih lanjut sebagai bahan belajar untuk kita semua.                                                      #
+# ---------------------------------------------------------------------------------------------------------------------#
+# @ Mojokerto, 2023                                                                                                    #
+########################################################################################################################
+
 import requests as rq
 import urllib3
 import ssl
