@@ -94,7 +94,9 @@ mapObj = {
 #     with open("provSelf" + str(x) + ".json", "w") as outfile:
 #         json.dump(getProvSelf, outfile)
 
-# Ambil Data Sirup (Data ini berasal dari API JSON yang ditarik dari Information Systems Branch (ISB) LKPP
+########################################################################################################################
+# Ambil Data Sirup (Data ini berasal dari API JSON yang ditarik dari Information Systems Branch (ISB) LKPP             #
+########################################################################################################################
 recap = 'https://sirup.lkpp.go.id/sirup/datatablectr/datatableruprekapkldi?idKldi=D170&tahun=' + str(
     yearNow)
 # getRecap = get_legacy_session().get(recap).json()
@@ -129,10 +131,17 @@ getProvSelf = rq.get(provSelf).json()
 # selfMan = 'https://lpse.or.id/sirup/?mod=datarupswakelolakldi&idKldi=D170&tahun=' + str(yearNow)
 # provSelf = 'https://lpse.or.id/sirup/?mod=dataruppenyediaswakelolaallrekapkldi&idKldi=D170&tahun=' + str(yearNow)
 
+########################################################################################################################
+# Mapping Data JSON (Data SIRUP berada pada key 'aaData'                                                               #
+########################################################################################################################
 dtRecap = getRecap['aaData']
 dtProv = getProv['aaData']
 dtSelf = getSelf['aaData']
 dtProvSelf = getProvSelf['aaData']
+
+########################################################################################################################
+# Inisialisasi Variable Data Tampung untuk Kalkulasi Data SIRUP                                                        #
+########################################################################################################################
 
 countDik = {}
 countEpc = {}
@@ -153,6 +162,10 @@ countTdrTotal = {}
 countTdcTotal = {}
 countSwaTotal = {}
 countTotalTotal = {}
+
+########################################################################################################################
+# Menjumlahkan Data Paket dan Pagu pada Data Penyedia berdasarkan Metode Pemilihannya                                  #
+########################################################################################################################
 
 for p in dtProv:
     if (countDik.get(p[1], 'None') == 'None' or
@@ -198,6 +211,10 @@ for p in dtProv:
         countTdc[p[1]]['pagu'] += int(p[3])
         countTdc[p[1]]['paket'] += 1
 
+########################################################################################################################
+# Menjumlahkan Data Paket dan Pagu pada Data Penyedia dalam Swakelola berdasarkan Metode Pemilihannya                  #
+########################################################################################################################
+
 for p in dtProvSelf:
     if (countDik.get(p[1], 'None') == 'None' or
             countEpc.get(p[1], 'None') == 'None' or
@@ -242,6 +259,10 @@ for p in dtProvSelf:
         countTdc[p[1]]['pagu'] += int(p[3])
         countTdc[p[1]]['paket'] += 1
 
+########################################################################################################################
+# Menjumlahkan Data Paket dan Pagu pada Data Swakelola                                                                 #
+########################################################################################################################
+
 for p in dtSelf:
     if countSwa.get(p[1], 'None') == 'None':
         countSwa[p[1]] = {'paket': 0, 'pagu': 0}
@@ -249,12 +270,20 @@ for p in dtSelf:
     countSwa[p[1]]['pagu'] += int(p[3])
     countSwa[p[1]]['paket'] += 1
 
+########################################################################################################################
+# Membuat List Satuan Kerja                                                                                            #
+########################################################################################################################
+
 recapKeysTemp = []
 
 for p in dtRecap:
     recapKeysTemp.append(p[1])
 
 recapKeys = list(dict.fromkeys(recapKeysTemp))
+
+########################################################################################################################
+# Menjumlahkan Data Paket dan Pagu pada Masing-Masing Satuan Kerja                                                     #
+########################################################################################################################
 
 for key in recapKeys:
     if countTotal.get(key, 'None') == 'None':
@@ -276,6 +305,10 @@ for key in recapKeys:
                                (countTdr[key]['pagu'] if countTdr.get(key, 'None') != 'None' else 0) +
                                (countTdc[key]['pagu'] if countTdc.get(key, 'None') != 'None' else 0) +
                                (countSwa[key]['pagu'] if countSwa.get(key, 'None') != 'None' else 0))
+
+########################################################################################################################
+# Menambahkan Judul Kolom untuk Excel yang Akan Dibuat                                                                 #
+########################################################################################################################
 
 data = [
     [
@@ -301,6 +334,10 @@ data = [
         "Pagu Terumumkan"
     ]
 ]
+
+########################################################################################################################
+# Menambahkan Isi Data Berdasarkan Kolom yang Telah Dibuat                                                             #
+########################################################################################################################
 
 detailRekap = []
 
@@ -330,6 +367,10 @@ for key in recapKeys:
         (countTotal[key]['pagu'] if countTotal.get(key, 'None') != 'None' else 0)
     ])
     index += 1
+
+########################################################################################################################
+# Menjumlahkan Kolom Data sebagai Data 'TOTAL' Berdasarkan Kolom yang Telah Dibuat                                     #
+########################################################################################################################
 
 countPdlTotal = {'paket': 0, 'pagu': 0}
 countEpcTotal = {'paket': 0, 'pagu': 0}
@@ -385,6 +426,10 @@ detailRekap.append([
 ])
 
 data.extend(detailRekap)
+
+########################################################################################################################
+# Men-Generate File Excel Data Rekapitulasi SIRUP Sesuai dengan Waktu Pengambilan (Tanggal dan Jam)                    #
+########################################################################################################################
 
 workbook = xlsxwriter.Workbook('rekap-' + dt_string + '.xlsx')
 worksheet = workbook.add_worksheet()
