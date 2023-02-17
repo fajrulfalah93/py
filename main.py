@@ -18,20 +18,11 @@
 ########################################################################################################################
 
 import requests
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
 import datetime as dt
-import json
 import time
 import xlsxwriter
 
 start_time = time.time()
-
-session = requests.Session()
-retry = Retry(connect=3, backoff_factor=0.5)
-adapter = HTTPAdapter(max_retries=retry)
-session.mount('http://', adapter)
-session.mount('https://', adapter)
 
 now = dt.datetime.now()
 dt_string = now.strftime("%d-%m-%Y-%H-%M")
@@ -61,61 +52,35 @@ opsi = ["Pilih Metode Pemilihan", "Pengadaan Langsung", "E-Purchasing", "Seleksi
         "Dikecualikan", "Penunjukan Langsung", "Swakelola"]
 mtd = "swa"
 
-# for x in range(minDate,maxDate):
-#     recap = 'https://sirup.lkpp.go.id/sirup/datatablectr/datatableruprekapkldi?idKldi=D170&tahun=' + str(x)
-#     getRecap = session.get(recap).json()
-#     with open("recap" + str(x) + ".json", "w") as outfile:
-#         json.dump(getRecap, outfile)
-#
-# for x in range(minDate,maxDate):
-#     provider = 'https://sirup.lkpp.go.id/sirup/datatablectr/dataruppenyediakldi?idKldi=D170&tahun=' + str(x)
-#     getProv = session.get(provider).json()
-#     with open("provider" + str(x) + ".json", "w") as outfile:
-#         json.dump(getProv, outfile)
-#
-# for x in range(minDate,maxDate):
-#     selfMan = 'https://sirup.lkpp.go.id/sirup/datatablectr/datarupswakelolakldi?idKldi=D170&tahun=' + str(x)
-#     getSelf = session.get(selfMan).json()
-#     with open("selfMan" + str(x) + ".json", "w") as outfile:
-#         json.dump(getSelf, outfile)
-#
-# for x in range(mod, maxDate):
-#     provSelf = 'https://sirup.lkpp.go.id/sirup/datatablectr/dataruppenyediaswakelolaallrekapkldi?idKldi=D170&tahun=' + str(
-#         x)
-#     getProvSelf = session.get(provSelf).json()
-#     with open("provSelf" + str(x) + ".json", "w") as outfile:
-#         json.dump(getProvSelf, outfile)
-
 ########################################################################################################################
 # Ambil Data Sirup (Data ini berasal dari API JSON yang ditarik dari Information Systems Branch (ISB) LKPP             #
+# ---------------------------------------------------------------------------------------------------------------------#
+# Mapping Data JSON (Data SIRUP berada pada key 'aaData'                                                               #
 ########################################################################################################################
+
 recap = 'https://sirup.lkpp.go.id/sirup/datatablectr/datatableruprekapkldi?idKldi=D170&tahun=' + str(
     yearNow)
-getRecap = session.get(recap).json()
-# getRecap = rq.get(recap).json()
-# with open("D:/learn/pbj/data/recap" + str(yearNow) + ".json", "w") as outfile:
-#     json.dump(getRecap, outfile)
+with requests.get(recap, stream=True) as gr:
+    getRecap = gr.json()
+    dtRecap = getRecap['aaData']
 
 provider = 'https://sirup.lkpp.go.id/sirup/datatablectr/dataruppenyediakldi?idKldi=D170&tahun=' + str(
     yearNow)
-getProv = session.get(provider).json()
-# getProv = rq.get(provider).json()
-# with open("D:/learn/pbj/data/provider" + str(yearNow) + ".json", "w") as outfile:
-#     json.dump(getProv, outfile)
+with requests.get(provider, stream=True) as gp:
+    getProv = gp.json()
+    dtProv = getProv['aaData']
 
 selfMan = 'https://sirup.lkpp.go.id/sirup/datatablectr/datarupswakelolakldi?idKldi=D170&tahun=' + str(
     yearNow)
-getSelf = session.get(selfMan).json()
-# getSelf = rq.get(selfMan).json()
-# with open("D:/learn/pbj/data/selfMan" + str(yearNow) + ".json", "w") as outfile:
-#     json.dump(getSelf, outfile)
+with requests.get(selfMan, stream=True) as gs:
+    getSelf = gs.json()
+    dtSelf = getSelf['aaData']
 
 provSelf = 'https://sirup.lkpp.go.id/sirup/datatablectr/dataruppenyediaswakelolaallrekapkldi?idKldi=D170&tahun=' + str(
     yearNow)
-getProvSelf = session.get(provSelf).json()
-# getProvSelf = rq.get(provSelf).json()
-# with open("D:/learn/pbj/data/provSelf" + str(yearNow) + ".json", "w") as outfile:
-#     json.dump(getProvSelf, outfile)
+with requests.get(provSelf, stream=True) as gps:
+    getProvSelf = gps.json()
+    dtProvSelf = getProvSelf['aaData']
 
 ########################################################################################################################
 # Alternatif Source untuk Data SIRUP                                                                                   #
@@ -124,14 +89,6 @@ getProvSelf = session.get(provSelf).json()
 # provider = 'https://lpse.or.id/sirup/?mod=dataruppenyediakldi&idKldi=D170&tahun=' + str(yearNow)
 # selfMan = 'https://lpse.or.id/sirup/?mod=datarupswakelolakldi&idKldi=D170&tahun=' + str(yearNow)
 # provSelf = 'https://lpse.or.id/sirup/?mod=dataruppenyediaswakelolaallrekapkldi&idKldi=D170&tahun=' + str(yearNow)
-
-########################################################################################################################
-# Mapping Data JSON (Data SIRUP berada pada key 'aaData'                                                               #
-########################################################################################################################
-dtRecap = getRecap['aaData']
-dtProv = getProv['aaData']
-dtSelf = getSelf['aaData']
-dtProvSelf = getProvSelf['aaData']
 
 ########################################################################################################################
 # Inisialisasi Variable Data Tampung untuk Kalkulasi Data SIRUP                                                        #
