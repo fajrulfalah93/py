@@ -26,8 +26,17 @@ import xlsxwriter
 
 ########################################################################################################################
 
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+
 import datetime as dt
 import time
+
+session = requests.Session()
+retry = Retry(connect=3, backoff_factor=0.5)
+adapter = HTTPAdapter(max_retries=retry)
+session.mount('http://', adapter)
+session.mount('https://', adapter)
 
 start_time = time.time()
 
@@ -67,25 +76,25 @@ mtd = "swa"
 
 recap = 'https://sirup.lkpp.go.id/sirup/datatablectr/datatableruprekapkldi?idKldi=D170&tahun=' + str(
     yearNow)
-with requests.get(recap, stream=True) as gr:
+with session.get(recap, stream=True) as gr:
     getRecap = gr.json()
     dtRecap = getRecap['aaData']
 
 provider = 'https://sirup.lkpp.go.id/sirup/datatablectr/dataruppenyediakldi?idKldi=D170&tahun=' + str(
     yearNow)
-with requests.get(provider, stream=True) as gp:
+with session.get(provider, stream=True) as gp:
     getProv = gp.json()
     dtProv = getProv['aaData']
 
 selfMan = 'https://sirup.lkpp.go.id/sirup/datatablectr/datarupswakelolakldi?idKldi=D170&tahun=' + str(
     yearNow)
-with requests.get(selfMan, stream=True) as gs:
+with session.get(selfMan, stream=True) as gs:
     getSelf = gs.json()
     dtSelf = getSelf['aaData']
 
 provSelf = 'https://sirup.lkpp.go.id/sirup/datatablectr/dataruppenyediaswakelolaallrekapkldi?idKldi=D170&tahun=' + str(
     yearNow)
-with requests.get(provSelf, stream=True) as gps:
+with session.get(provSelf, stream=True) as gps:
     getProvSelf = gps.json()
     dtProvSelf = getProvSelf['aaData']
 
