@@ -66,7 +66,7 @@ dictOfDate = {
 option = ["default", "pgl", "ep", "slk", "tdr", "tdc", "dk", "pnl", "swa"]
 opsi = ["Pilih Metode Pemilihan", "Pengadaan Langsung", "E-Purchasing", "Seleksi", "Tender", "Tender Cepat",
         "Dikecualikan", "Penunjukan Langsung", "Swakelola"]
-mtd = "swa"
+mtd = "ep"
 
 ########################################################################################################################
 # Ambil Data Sirup (Data ini berasal dari API JSON yang ditarik dari Information Systems Branch (ISB) LKPP             #
