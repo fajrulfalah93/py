@@ -66,7 +66,7 @@ dictOfDate = {
 option = ["default", "pgl", "ep", "slk", "tdr", "tdc", "dk", "pnl", "swa"]
 opsi = ["Pilih Metode Pemilihan", "Pengadaan Langsung", "E-Purchasing", "Seleksi", "Tender", "Tender Cepat",
         "Dikecualikan", "Penunjukan Langsung", "Swakelola"]
-mtd = "ep"
+mtd = "default"
 
 ########################################################################################################################
 # Ambil Data Sirup (Data ini berasal dari API JSON yang ditarik dari Information Systems Branch (ISB) LKPP             #
@@ -76,35 +76,31 @@ mtd = "ep"
 
 recap = 'https://sirup.lkpp.go.id/sirup/datatablectr/datatableruprekapkldi?idKldi=D170&tahun=' + str(
     yearNow)
+# recap = 'https://lpse.or.id/sirup/?mod=datatableruprekapkldi&idKldi=D170&tahun=' + str(yearNow)
 with session.get(recap, stream=True) as gr:
     getRecap = gr.json()
     dtRecap = getRecap['aaData']
 
 provider = 'https://sirup.lkpp.go.id/sirup/datatablectr/dataruppenyediakldi?idKldi=D170&tahun=' + str(
     yearNow)
+# provider = 'https://lpse.or.id/sirup/?mod=dataruppenyediakldi&idKldi=D170&tahun=' + str(yearNow)
 with session.get(provider, stream=True) as gp:
     getProv = gp.json()
     dtProv = getProv['aaData']
 
 selfMan = 'https://sirup.lkpp.go.id/sirup/datatablectr/datarupswakelolakldi?idKldi=D170&tahun=' + str(
     yearNow)
+# selfMan = 'https://lpse.or.id/sirup/?mod=datarupswakelolakldi&idKldi=D170&tahun=' + str(yearNow)
 with session.get(selfMan, stream=True) as gs:
     getSelf = gs.json()
     dtSelf = getSelf['aaData']
 
 provSelf = 'https://sirup.lkpp.go.id/sirup/datatablectr/dataruppenyediaswakelolaallrekapkldi?idKldi=D170&tahun=' + str(
     yearNow)
+# provSelf = 'https://lpse.or.id/sirup/?mod=dataruppenyediaswakelolaallrekapkldi&idKldi=D170&tahun=' + str(yearNow)
 with session.get(provSelf, stream=True) as gps:
     getProvSelf = gps.json()
     dtProvSelf = getProvSelf['aaData']
-
-########################################################################################################################
-# Alternatif Source untuk Data SIRUP                                                                                   #
-########################################################################################################################
-# recap = 'https://lpse.or.id/sirup/?mod=datatableruprekapkldi&idKldi=D170&tahun=' + str(yearNow)
-# provider = 'https://lpse.or.id/sirup/?mod=dataruppenyediakldi&idKldi=D170&tahun=' + str(yearNow)
-# selfMan = 'https://lpse.or.id/sirup/?mod=datarupswakelolakldi&idKldi=D170&tahun=' + str(yearNow)
-# provSelf = 'https://lpse.or.id/sirup/?mod=dataruppenyediaswakelolaallrekapkldi&idKldi=D170&tahun=' + str(yearNow)
 
 ########################################################################################################################
 # Inisialisasi Variable Data Tampung untuk Kalkulasi Data SIRUP                                                        #
