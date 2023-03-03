@@ -566,7 +566,7 @@ if mtd == "swa":
         dataSwa.append([pen[1], edit, pen[2], int(pen[3]), pen[4], pen[5], pen[6]])
     tmpSwa = sorted(dataSwa)
 
-if (len(tmpTP) == 0) or (len(tmpTPds) == 0):
+if (len(tmpTP) == 0) and (len(tmpTPds) == 0):
     tmpJoin = tmpSwa
     header = [
         [
